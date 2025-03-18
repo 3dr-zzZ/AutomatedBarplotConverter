@@ -15,7 +15,7 @@ from recognizer import Recognizer
 
 def load_image() -> str:
     """Return the path of image."""
-    return "chart.png"
+    return "example_chart.png"
 
 
 def convert_data(raw_data: list) -> list:

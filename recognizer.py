@@ -80,7 +80,7 @@ class Recognizer:
 
 if __name__ == "__main__":
     # Example usage
-    recognizer = Recognizer('chart.png')
+    recognizer = Recognizer('example_chart.png')
     graph_preview = recognizer.output_graph()
     data_preview = recognizer.output_data()
 
