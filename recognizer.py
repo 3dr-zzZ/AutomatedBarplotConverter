@@ -62,7 +62,7 @@ class Recognizer:
             self.bar_heights.append(h)
             cv2.rectangle(self.processed_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    def output_graph_preview(self):
+    def output_graph(self):
         """
         Returns the processed image with detected bars highlighted.
 
@@ -70,7 +70,7 @@ class Recognizer:
         """
         return self.processed_image
 
-    def output_data_preview(self):
+    def output_data(self):
         """
         Returns the list of bar heights in pixels.
 
@@ -81,8 +81,8 @@ class Recognizer:
 if __name__ == "__main__":
     # Example usage
     recognizer = Recognizer('chart.png')
-    graph_preview = recognizer.output_graph_preview()
-    data_preview = recognizer.output_data_preview()
+    graph_preview = recognizer.output_graph()
+    data_preview = recognizer.output_data()
 
     # Display the processed image
     cv2.imshow("Graph Preview", graph_preview)
