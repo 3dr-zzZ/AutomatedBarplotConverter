@@ -10,6 +10,8 @@ Author: 3dr-zzZ
 import cv2, os
 import pandas as pd
 import numpy as np
+from pandas.core.interchange.dataframe_protocol import DataFrame
+
 from recognizer import Recognizer
 
 
@@ -42,53 +44,46 @@ def convert_data(raw_data: list) -> list:
     return output
 
 
-def export(data: list) -> None:
+def date_calculator(df: pd.DataFrame) -> pd.DataFrame:
+    """Add a date feature to the DataFrame by creating a new 'Date' column.
+
+    Prompts the user for the start and end date, and generates an evenly spaced date range
+    corresponding to the number of rows in the DataFrame.
     """
-    Export the data into .csv using Pandas.
+    start_date = input("Start date of the data (YYYY-MM-DD): ").strip()
+    end_date = input("End date of the data (YYYY-MM-DD): ").strip()
+    n = len(df)
 
-    The user is prompted to choose:
-      - Whether to export as a row or a column.
-      - Whether to create a new file or append to an existing file.
+    # Generate the date range with evenly spaced intervals
+    date_range = pd.date_range(start=start_date, end=end_date, periods=n)
+
+    # Add the date column to the DataFrame
+    df['Date'] = date_range.strftime('%Y-%m-%d')
+
+    print("DataFrame with date feature added:")
+    print(df.head())
+
+    return df
+
+
+def export(data) -> None:
     """
-    # Prompt user for how to arrange the data
-    export_type = input("Export data as row or column? (r/c): ").strip().lower()
-    if export_type not in ('r', 'c'):
-        print("Invalid choice; defaulting to column export.")
-        export_type = 'c'
+    Export the data into a CSV file using Pandas, including the date feature.
 
-    # Prompt user for how to write the file
-    mode_choice = input("Create new file or append to existing? (n/a): ").strip().lower()
-    if mode_choice not in ('n', 'a'):
-        print("Invalid choice; defaulting to creating a new file.")
-        mode_choice = 'n'
+    The user is prompted to choose whether to create a new file or append to an existing file.
+    If data is provided as a list, it will be converted to a DataFrame with a single column 'Value'.
+    A date feature will be added to the DataFrame using date_calculator.
+    """
+    df = pd.DataFrame(data, columns=["Value"])
 
-    # Decide whether to write a header row
-    # If appending, we typically skip the header
-    write_header = (mode_choice == 'n')
+    # Add the date feature to the DataFrame
+    df = date_calculator(df)
 
-    # Convert the data into a pandas DataFrame
-    if export_type == 'r':
-        # data as a single row
-        df = pd.DataFrame([data])
-    else:
-        # data as a single column
-        df = pd.DataFrame(data, columns=["Value"])
+    csv_filename = "exported_data.csv"
+    write_mode = 'w'
+    write_header = True
 
-    # Decide the write mode
-    if mode_choice == 'n':
-        write_mode = 'w'
-        csv_filename = "exported_data.csv"
-    else:
-        write_mode = 'a'
-        csv_filename = input("Intended filename to extend:").strip()
-
-    # Write the DataFrame to CSV
-    df.to_csv(
-        csv_filename,
-        mode=write_mode,
-        header=write_header,
-        index=False
-    )
+    df.to_csv(csv_filename, mode=write_mode, header=write_header, index=False)
 
     print(f"Data exported to '{csv_filename}' (mode={write_mode}, header={write_header}).")
 
