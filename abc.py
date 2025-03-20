@@ -10,14 +10,14 @@ Author: 3dr-zzZ
 import cv2, os
 import pandas as pd
 import numpy as np
-from pandas.core.interchange.dataframe_protocol import DataFrame
+from tkinter import filedialog
 
 from recognizer import Recognizer
 
 
 def load_image() -> str:
     """Return the path of image."""
-    return "example_chart.png"
+    return filedialog.askopenfilename()
 
 
 def convert_data(raw_data: list) -> list:
@@ -79,13 +79,18 @@ def export(data) -> None:
     # Add the date feature to the DataFrame
     df = date_calculator(df)
 
-    csv_filename = "exported_data.csv"
+    file_path = filedialog.asksaveasfilename(
+        defaultextension=".csv",
+        filetypes=[("CSV files", "*.csv")],
+        title="Save DataFrame as CSV"
+    )
+
     write_mode = 'w'
     write_header = True
 
-    df.to_csv(csv_filename, mode=write_mode, header=write_header, index=False)
+    df.to_csv(file_path, mode=write_mode, header=write_header, index=False)
 
-    print(f"Data exported to '{csv_filename}' (mode={write_mode}, header={write_header}).")
+    print(f"Data exported to '{file_path}' (mode={write_mode}, header={write_header}).")
 
 if __name__ == "__main__":
     # Load the image
