@@ -25,6 +25,7 @@ class Recognizer:
 
         self.processed_image = None
         self.bar_heights = None
+        self.bars = []
         self._process_image()
 
     def _process_image(self):
@@ -54,13 +55,16 @@ class Recognizer:
 
         # Initialize results
         self.bar_heights = []
-        self.processed_image = self.original_image.copy()
+        out_img = self.original_image.copy()
 
         # Loop over contours, compute bounding boxes, and extract bar heights
         for c in contours:
             x, y, w, h = cv2.boundingRect(c)
             self.bar_heights.append(h)
-            cv2.rectangle(self.processed_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            self.bars.append((x, y, w, h))
+            cv2.rectangle(out_img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+        self.processed_image = out_img
 
     def output_graph(self):
         """
@@ -68,7 +72,14 @@ class Recognizer:
 
         :return: Processed image (numpy array).
         """
-        return self.processed_image
+        image_copy = self.processed_image.copy()
+        # Determine the shortest and tallest bars by their height
+        shortest = min(self.bars, key=lambda box: box[3])
+        tallest = max(self.bars, key=lambda box: box[3])
+        # Draw horizontal lines across the image at the top of these bars
+        cv2.line(image_copy, (0, shortest[1]), (image_copy.shape[1], shortest[1]), (0, 0, 255), 2)
+        cv2.line(image_copy, (0, tallest[1]), (image_copy.shape[1], tallest[1]), (255, 0, 0), 2)
+        return image_copy
 
     def output_data(self):
         """
