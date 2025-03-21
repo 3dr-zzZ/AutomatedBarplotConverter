@@ -8,7 +8,7 @@ A converter that takes an image of a bar plot and output the values of each bar.
 <br>
 After running, use "Select Image" button to choose the graph(.png, .jpg, .jpeg, .bmp, .tif, .tiff) to process.
 <br>
-Crop the image to leave just the bar plot (without title, legend, etc.) to avoid disrupting the bar plot recognition.
+(Note: Use cropped image with just the bar plot (without title, legend, etc.) to avoid disrupting the bar plot recognition.)
 <br>
 <br>
 **Step 2: Bar Recognition**
