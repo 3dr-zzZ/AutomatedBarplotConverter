@@ -9,7 +9,7 @@ A converter that takes an image of a bar plot and outputs the values of each bar
 ## Download
 Download the latest version from [Github Releases](https://github.com/3dr-zzZ/AutomatedBarplotConverter/releases)
  - If you don't have Python on your PC, download the `abc.exe` file and double-click to run it (Windows).
- - If you are familiar with Python, the `abc.py` is the main file you are looking for; All required packages can be found in requirements.txt
+ - If you are familiar with Python, the `abc.py` is the main file you are looking for; All required packages can be found in `requirements.txt`
 
 ---
 
@@ -18,7 +18,7 @@ Download the latest version from [Github Releases](https://github.com/3dr-zzZ/Au
 ### **Step 1: Select Image**
 1. Click the **"Select Image"** button to upload an image file. Supported formats:  
    - `.png`, `.jpg`, `.jpeg`, `.bmp`, `.tif`, `.tiff`
-*Note: use cropped images containing only the bar plot (excluding titles, legends, etc.) to improve accuracy.*
+   - *Note: use cropped images containing only the bar plot (excluding titles, legends, etc.) to improve accuracy.*
 
 ### **Step 2: Process Bar Recognition**
 1. Click the **"Process Bar Recognition"** button to analyze the bar plot.
@@ -49,6 +49,7 @@ Click the **"Export CSV"** button to save the extracted data for further analysi
 
 3. **Date Estimation**  
    - Since the bars represent evenly spaced time intervals, the program distributes the provided start and end dates across all detected bars.
+   - Using **Pandas** with data storage, date calculation and CSV exportation.
 
 4. **Graphical Interface**  
    - The application uses **tkinter** for an interactive user interface.
